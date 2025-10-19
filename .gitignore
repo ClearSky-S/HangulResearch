@@ -1,7 +1,6 @@
 ﻿build
 old
 zip
-text_counter_batch.spec
 .venv
 
 # output과 input 폴더는 제외하되, 관세음보살경 관련 파일만 포함
@@ -12,3 +11,4 @@ input/*
 !input/관세음보살경.txt
 wordcloud
 !wordcloud/wordcloud_관세음보살경.png
+dist
