@@ -1,0 +1,5 @@
+# 텍스트 분석 설정 파일
+# 각 옵션을 true 또는 false로 설정하세요
+
+# 워드클라우드 생성 여부
+generate_wordcloud = true
