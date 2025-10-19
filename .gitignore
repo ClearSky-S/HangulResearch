@@ -1,0 +1,11 @@
+﻿build
+old
+zip
+text_counter_batch.spec
+
+# output과 input 폴더는 제외하되, 관세음보살경 관련 파일만 포함
+output/*
+!output/output_관세음보살경.txt
+
+input/*
+!input/관세음보살경.txt
