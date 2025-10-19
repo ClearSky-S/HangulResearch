@@ -32,6 +32,19 @@ for filename in file_list:
     # 기호, 공백 제외한 총 글자수
     total_chars = sum(count for char, count in counter.items() if re.match(r'[가-힣]', char))
 
+    # 어절 분석 (띄어쓰기 단위)
+    # 공백 기준으로 분리하고, 한글이 포함된 어절만 추출
+    words = text.split()
+    korean_words = [word for word in words if re.search(r'[가-힣]', word)]
+    total_words = len(korean_words)
+    
+    # 어절 빈도 분석
+    word_counter = Counter(korean_words)
+    sorted_words = word_counter.most_common()
+    
+    # 고유 어절 수
+    unique_words = len(word_counter)
+
     # 완성형 한글(가-힣) - hangul_syllables_string에 포함된 글자만
     hangul_syllables = [(char, count) for char, count in sorted_counter if char in hangul_syllables_string]
     # 한글 전체(자모 포함)
@@ -67,7 +80,9 @@ for filename in file_list:
     output_filename = os.path.join(output_dir, f'output_{os.path.splitext(filename)[0]}.txt')
     with open(output_filename, 'w', encoding='utf-8') as f:
         f.write(f'원본 파일명: {filename}\n')
-        f.write(f'총 글자수 (기호, 공백 제외) : {total_chars}\n\n')
+        f.write(f'총 글자수 (기호, 공백 제외) : {total_chars}\n')
+        f.write(f'총 어절수 (한글 포함) : {total_words}\n')
+        f.write(f'고유 어절수 : {unique_words}\n\n')
 
         # 완성형 한글 빈도순 정렬 (1회 이상 사용)
         f.write(f'[빈도순 정렬(완성형 한글, 1회 이상 사용)] ({hangul_syllables_used_count}/{hangul_syllables_total})\n')
@@ -106,5 +121,12 @@ for filename in file_list:
         for char, count in hangul_all:
             percent = count / total_chars * 100 if total_chars > 0 else 0
             f.write(f'{char}: {count} ({percent:.5f}%)\n')
+        f.write('\n')
+        
+        # 어절 분석 결과 (마지막에 출력)
+        f.write(f'[어절 빈도순 정렬]\n')
+        for i, (word, count) in enumerate(sorted_words, 1):
+            percent = count / total_words * 100 if total_words > 0 else 0
+            f.write(f'{i}. {word}: {count}회 ({percent:.3f}%)\n')
             
         print(f'{filename} 분석이 완료되었습니다\n')
