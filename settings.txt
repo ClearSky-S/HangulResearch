@@ -3,3 +3,4 @@
 
 # 워드클라우드 생성 여부
 generate_wordcloud = true
+font_path = "font/Hangeuljaemin6.otf"
